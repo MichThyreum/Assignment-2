@@ -8,3 +8,4 @@ def chunk_document(text: str, chunk_size: int = 2000) -> list[str]:
     chunker = chunkerify(lambda x: len(x), chunk_size)
     chunks = chunker(text)
     return chunks
+    

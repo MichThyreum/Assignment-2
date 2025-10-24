@@ -10,4 +10,4 @@ def extract_pdf_text(uploaded_file) -> str:
         return text
     except Exception as e:
         return None
-        
+
