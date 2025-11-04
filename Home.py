@@ -109,7 +109,8 @@ elif page == "⚡ Analyser":
             
             if ref_docs:
                 st.success(f"✅ Loaded {len(ref_docs)} reference documents")
-            # Removed the warning message here
+            else:
+                st.error("❌ Could not load reference documents - they are not being found")
             
             results = []
             
@@ -224,9 +225,9 @@ else:
     
     ### Reference Documents Used in Analysis
     
-    This tool uses ONLY the following 4 documents to analyse FOI exemptions:
+    This tool uses ONLY the following 3 documents to analyse FOI exemptions:
     
-    📑 **FOI Guidelines Draft Part IV - Exempt Documents (Version 2)** (PRIMARY)  
+    📑 **FOI Guidelines Draft Part IV - Exempt Documents** (PRIMARY)  
     Victorian FOI exemptions - comprehensive guide to all Part IV exemptions
     
     📜 **Taxation Administration Act**  
@@ -235,14 +236,11 @@ else:
     📄 **About the Taxation Administration Act**  
     Explanatory guide on TA Act provisions and interpretations
     
-    📋 **FOI Guidelines Part I - Preliminary (Version 2)** (GENERAL GUIDE)  
-    Overview of Victorian FOI framework and fundamental principles
-    
     ### How It Works
     
     1. **Document Detection** - Checks filename and content for letters
     2. **Letter Handling** - Letters to customers marked for full release
-    3. **FOI Analysis** - 5 AI analysis steps using ONLY the reference documents:
+    3. **FOI Analysis** - 5 AI analysis steps using the reference documents:
        - Analyse document structure and content
        - Identify ALL applicable Victorian FOI exemptions from Part IV Guidelines
        - Match against provisions in the reference documents
@@ -272,4 +270,5 @@ else:
 
 st.markdown("---")
 st.caption("⚖️ FOI Case Management Tool | For Internal Use Only")
+
 
