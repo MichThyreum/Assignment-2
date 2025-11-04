@@ -25,7 +25,7 @@ st.markdown("""
 # Sidebar
 with st.sidebar:
     st.markdown("### 📋 Navigation")
-    page = st.radio("", ["🏠 Home", "⚡ Analyser", "📖 References"])
+    page = st.radio("Navigation", ["🏠 Home", "⚡ Analyser", "📖 References"], label_visibility="collapsed")
     
     if page == "⚡ Analyser":
         st.markdown("---\n### 🔑 API Key")
@@ -109,8 +109,7 @@ elif page == "⚡ Analyser":
             
             if ref_docs:
                 st.success(f"✅ Loaded {len(ref_docs)} reference documents")
-            else:
-                st.warning("⚠️ No reference documents found. Analysis will proceed without references.")
+            # Removed the warning message here
             
             results = []
             
@@ -273,25 +272,4 @@ else:
 
 st.markdown("---")
 st.caption("⚖️ FOI Case Management Tool | For Internal Use Only")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-
-
 
