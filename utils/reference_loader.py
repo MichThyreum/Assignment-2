@@ -5,25 +5,16 @@ from utils.pdf_handler import extract_pdf_text
 def load_reference_documents():
     ref_docs = {}
     
-    # Try multiple possible locations
-    possible_paths = [
-        Path(__file__).parent.parent / "documents",  # Most common
-        Path.cwd() / "documents",  # Alternative
-        Path("/mount/src/assignment-2/documents"),  # Streamlit Cloud path
-    ]
+    # Get absolute path to documents folder relative to Home.py
+    # Home.py is in the root, documents is also in the root
+    home_file = Path(__file__).parent.parent / "Home.py"
+    documents_dir = home_file.parent / "documents"
     
-    documents_dir = None
-    for path in possible_paths:
-        if path.exists() and path.is_dir():
-            documents_dir = path
-            break
-    
-    if not documents_dir:
+    if not documents_dir.exists() or not documents_dir.is_dir():
         return {}
     
     # Your actual filenames
     doc_files = {
-        "FOI Guidelines Part I": "FOI-Guidelines-Part-I-Preliminary-version-2.pdf",
         "FOI Guidelines Part IV": "FOI-Guidelines-Draft-Part-IV-Exempt-documents.pdf",
         "TA Act": "TA Act.pdf",
         "About TAA": "About the Taxation Administration Act.pdf"
@@ -62,12 +53,11 @@ def get_reference_context(ref_docs, max_chars=10000):
         context += "--- About TAA (Context) ---\n"
         context += ref_docs["About TAA"][:2000] + "\n\n"
     
-    if "FOI Guidelines Part I" in ref_docs:
-        context += "--- FOI Guidelines Part I (General Guide) ---\n"
-        context += ref_docs["FOI Guidelines Part I"][:2000] + "\n\n"
-    
     return context
     
+
+    
+
     
 
 
