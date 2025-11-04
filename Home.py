@@ -25,9 +25,9 @@ st.markdown("""
 # Sidebar
 with st.sidebar:
     st.markdown("### 📋 Navigation")
-    page = st.radio("", ["🏠 Home", "⚡ Analyzer", "📖 References"])
+    page = st.radio("", ["🏠 Home", "⚡ Analyser", "📖 References"])
     
-    if page == "⚡ Analyzer":
+    if page == "⚡ Analyser":
         st.markdown("---\n### 🔑 API Key")
         show_key = st.checkbox("Show API key")
         api_key = st.text_input("OpenAI API Key:", type="default" if show_key else "password")
@@ -40,21 +40,21 @@ if 'results' not in st.session_state:
 if page == "🏠 Home":
     st.title("🏛️ FOI Case Management Tool")
     st.divider()
-    st.info("**Welcome!** This tool analyzes documents for FOI exemptions using reference legislation and guidelines.")
+    st.info("**Welcome!** This tool analyses documents for Victorian FOI exemptions using reference legislation and guidelines.")
     
     st.markdown("### 🚀 How It Works")
     col1, col2 = st.columns(2)
     with col1:
-        st.markdown("**1. Enter Customer Names** 👥\n\n**2. Upload Documents** 📂\n\n**3. Analyze** 🔍")
+        st.markdown("**1. Enter Customer Names** 👥\n\n**2. Upload Documents** 📂\n\n**3. Analyse** 🔍")
     with col2:
         st.markdown("**4. Document Detection** 🎯\n\n**5. FOI Analysis** ⚡\n\n**6. Download Results** 💾")
     
     st.divider()
     st.warning("⚠️ **Important:** Preliminary analysis only. Professional legal review required.")
 
-# PAGE 2: ANALYZER
-elif page == "⚡ Analyzer":
-    st.title("⚡ FOI Document Analyzer")
+# PAGE 2: ANALYSER
+elif page == "⚡ Analyser":
+    st.title("⚡ FOI Document Analyser")
     st.divider()
     
     # Check API key
@@ -96,8 +96,8 @@ elif page == "⚡ Analyzer":
     
     st.divider()
     
-    # Analyze
-    if st.button("🔍 Analyze Documents", type="primary", use_container_width=True):
+    # Analyse
+    if st.button("🔍 Analyse Documents", type="primary", use_container_width=True):
         if not files:
             st.error("Please upload at least one document")
         elif not customer_names:
@@ -115,7 +115,7 @@ elif page == "⚡ Analyzer":
             results = []
             
             for file in files:
-                st.markdown(f"### Analyzing: {file.name}")
+                st.markdown(f"### Analysing: {file.name}")
                 
                 # Extract text
                 text = extract_pdf_text(file)
@@ -138,16 +138,12 @@ elif page == "⚡ Analyzer":
                         addressed_to = name
                         break
                 
-                # Chunk and analyze
+                # Chunk and analyse
                 chunks = chunk_document(text)
                 st.success(f"✅ Created {len(chunks)} chunks")
                 
-                # Define exemptions based on reference documents
-                exemptions = [
-                    "Tax Secrecy (TAA s 355)",
-                    "Personal Privacy (s 47F)",
-                    "Business/Commercial (s 47)"
-                ]
+                # NO predefined exemptions - let AI find ALL exemptions from guidelines
+                exemptions = []  # Empty - AI will identify from reference documents
                 
                 # Get reference context
                 ref_context = get_reference_context(ref_docs) if ref_docs else ""
@@ -218,41 +214,57 @@ else:
     st.markdown("""
     ### Legislation & Guidelines
     
-    **Freedom of Information Act 1982 (Cth)**
-    - Section 47 - Public interest
-    - Section 47E - Agency operations
-    - Section 47F - Personal privacy
+    **Freedom of Information Act 1982 (Vic)**
+    - All Part IV exemptions (s 28 through s 38)
+    - Analysed using FOI Guidelines Part IV
     
-    **Taxation Administration Act 1953 (Cth)**
-    - Section 355 - Taxpayer confidentiality
+    **Taxation Administration Act (TA Act)**
+    - Section 91 - Secrecy provisions
+    - Section 92 - Secrecy provisions
+    - Section 93 - Secrecy provisions
     
     ### Reference Documents Used in Analysis
     
-    This tool uses the following documents to analyze FOI exemptions:
+    This tool uses ONLY the following 4 documents to analyse FOI exemptions:
     
-    📋 **FOI Guidelines Part I - Preliminary (Version 2)**  
-    Overview of FOI framework and fundamental principles
+    📑 **FOI Guidelines Draft Part IV - Exempt Documents (Version 2)** (PRIMARY)  
+    Victorian FOI exemptions - comprehensive guide to all Part IV exemptions
     
-    📑 **FOI Guidelines Draft Part IV - Exempt Documents (Version 2)**  
-    Detailed guidance on exemption categories and application
-    
-    📜 **Taxation Administration Act 1953**  
-    Complete legislation including Section 355 (taxpayer secrecy)
+    📜 **Taxation Administration Act**  
+    Complete legislation including Sections 91, 92, 93 (secrecy provisions)
     
     📄 **About the Taxation Administration Act**  
-    Explanatory guide on TAA provisions and interpretations
+    Explanatory guide on TA Act provisions and interpretations
+    
+    📋 **FOI Guidelines Part I - Preliminary (Version 2)** (GENERAL GUIDE)  
+    Overview of Victorian FOI framework and fundamental principles
     
     ### How It Works
     
     1. **Document Detection** - Checks filename and content for letters
     2. **Letter Handling** - Letters to customers marked for full release
-    3. **FOI Analysis** - 5 AI analysis steps using reference documents:
-       - Analyze document structure and content
-       - Identify potential exemptions
-       - Match against FOI provisions
-       - Generate legal reasoning
+    3. **FOI Analysis** - 5 AI analysis steps using ONLY the reference documents:
+       - Analyse document structure and content
+       - Identify ALL applicable Victorian FOI exemptions from Part IV Guidelines
+       - Match against provisions in the reference documents
+       - Generate legal reasoning based on the guidelines
        - Create executive summary
     4. **Results** - Provides conclusion with detailed findings
+    
+    ### Victorian FOI Exemptions Covered
+    
+    The tool analyses for ALL exemptions in FOI Guidelines Part IV including:
+    - s 28 - Cabinet documents
+    - s 29A - National security, defence, international relations  
+    - s 30 - Internal working documents
+    - s 31 - Law enforcement documents
+    - s 32 - Legal proceedings
+    - s 33 - Personal privacy
+    - s 34 - Trade secrets/commercial
+    - s 35 - Material obtained in confidence
+    - s 36 - Public interest
+    - s 38 - Secrecy provisions (includes TA Act s 91, 92, 93)
+    - And all other Part IV exemptions
     
     ---
     
@@ -261,6 +273,7 @@ else:
 
 st.markdown("---")
 st.caption("⚖️ FOI Case Management Tool | For Internal Use Only")
+
 
 
 
