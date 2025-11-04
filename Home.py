@@ -12,112 +12,68 @@ st.set_page_config(
     layout="wide"
 )
 
-# Simple modern CSS with readable colors
+# Clean simple CSS
 st.markdown("""
     <style>
+    /* White background */
     .stApp {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background-color: white;
     }
     
-    .main .block-container {
-        background: rgba(255, 255, 255, 0.95);
-        border-radius: 20px;
-        padding: 2rem;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    }
-    
-    /* Make all main content text dark and readable */
+    /* All text black by default */
     .main * {
-        color: #1a202c !important;
+        color: #000000;
     }
     
-    /* Force all text to be dark */
-    .stApp .main p, .stApp .main span, .stApp .main div {
-        color: #1a202c !important;
+    /* Headings in dark blue */
+    h1, h2, h3, h4, h5, h6 {
+        color: #1e3a8a !important;
     }
     
-    .stButton button {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white !important;
-        border-radius: 12px;
-        padding: 0.75rem 2rem;
-        border: none;
-        font-weight: 600;
-    }
-    
-    .stButton button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
-    }
-    
-    /* Success/Warning/Error boxes */
-    .stSuccess, .element-container .stSuccess {
-        background-color: white !important;
-        border-left: 4px solid #48BB78 !important;
-    }
-    
-    .stSuccess *, .element-container .stSuccess *, .stSuccess p, .stSuccess div, .stSuccess span {
-        color: #1a202c !important;
-        background-color: transparent !important;
-    }
-    
-    .stWarning, .element-container .stWarning {
-        background-color: white !important;
-        border-left: 4px solid #ECC94B !important;
-    }
-    
-    .stWarning *, .element-container .stWarning *, .stWarning p, .stWarning div, .stWarning span {
-        color: #1a202c !important;
-        background-color: transparent !important;
-    }
-    
-    .stError, .element-container .stError {
-        background-color: white !important;
-        border-left: 4px solid #F56565 !important;
-    }
-    
-    .stError *, .element-container .stError *, .stError p, .stError div, .stError span {
-        color: #1a202c !important;
-        background-color: transparent !important;
-    }
-    
-    .stInfo, .element-container .stInfo {
-        background-color: white !important;
-        border-left: 4px solid #4299E1 !important;
-    }
-    
-    .stInfo *, .element-container .stInfo *, .stInfo p, .stInfo div, .stInfo span {
-        color: #1a202c !important;
-        background-color: transparent !important;
-    }
-    
-    /* Sidebar */
+    /* Sidebar dark blue */
     [data-testid="stSidebar"] {
-        background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+        background-color: #1e3a8a;
     }
     
     [data-testid="stSidebar"] * {
         color: white !important;
     }
     
-    /* Input fields */
-    input, textarea {
-        color: #1a202c !important;
-    }
-    
-    /* Sidebar inputs */
     [data-testid="stSidebar"] input {
         color: #000000 !important;
         background-color: white !important;
     }
     
-    /* Labels */
-    label {
-        color: #1a202c !important;
+    /* Buttons */
+    .stButton button {
+        background-color: #1e3a8a;
+        color: white !important;
+        border: none;
+        border-radius: 8px;
+        padding: 0.5rem 1rem;
     }
     
-    [data-testid="stSidebar"] label {
-        color: white !important;
+    .stButton button:hover {
+        background-color: #1e40af;
+    }
+    
+    /* Success/Info/Warning/Error boxes */
+    .stSuccess, .stInfo, .stWarning, .stError {
+        background-color: #f9fafb !important;
+        border: 1px solid #e5e7eb !important;
+        border-radius: 8px !important;
+        padding: 1rem !important;
+    }
+    
+    .stSuccess *, .stInfo *, .stWarning *, .stError * {
+        color: #000000 !important;
+    }
+    
+    /* Make conclusion text RED */
+    .conclusion-text {
+        color: #dc2626 !important;
+        font-weight: bold !important;
+        font-size: 1.1em !important;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -125,7 +81,7 @@ st.markdown("""
 # Sidebar navigation
 with st.sidebar:
     st.markdown("### 📋 Navigation")
-    page = st.radio("", ["🏠 How to Use", "📄 Document Analyzer", "📚 References"])
+    page = st.radio("", ["🏠 Home", "⚡ Analyzer", "📖 References"])
 
 # Session state
 if 'results' not in st.session_state:
@@ -133,8 +89,8 @@ if 'results' not in st.session_state:
 if 'num_customers' not in st.session_state:
     st.session_state.num_customers = 1
 
-# PAGE 1: HOW TO USE
-if page == "🏠 How to Use":
+# PAGE 1: HOME
+if page == "🏠 Home":
     st.title("🏛️ FOI Case Management Tool")
     st.divider()
     
@@ -148,34 +104,34 @@ if page == "🏠 How to Use":
     
     with col1:
         st.markdown("""
-        **1. Enter Customer Names**  
+        **1. Enter Customer Names** 👥  
         Add up to 2 customer names
         
-        **2. Upload Documents**  
+        **2. Upload Documents** 📂  
         Up to 2 PDF files
         
-        **3. Analyze**  
+        **3. Analyze** 🔍  
         Click the analyze button
         """)
     
     with col2:
         st.markdown("""
-        **4. Document Detection**  
+        **4. Document Detection** 🎯  
         Identifies document types
         
-        **5. FOI Analysis**  
+        **5. FOI Analysis** ⚡  
         Documents analyzed for exemptions
         
-        **6. Download Results**  
+        **6. Download Results** 💾  
         Export complete analysis
         """)
     
     st.divider()
     st.warning("⚠️ **Important:** This tool provides preliminary analysis only. Professional legal review required.")
 
-# PAGE 2: DOCUMENT ANALYZER
-elif page == "📄 Document Analyzer":
-    st.title("📄 FOI Document Analyzer")
+# PAGE 2: ANALYZER
+elif page == "⚡ Analyzer":
+    st.title("⚡ FOI Document Analyzer")
     st.divider()
     
     # API Key
@@ -202,7 +158,7 @@ elif page == "📄 Document Analyzer":
     client = OpenAI(api_key=api_key)
     
     # Customer Names
-    st.markdown("### 👤 Step 1: Customer Names")
+    st.markdown("### 👥 Step 1: Customer Names")
     
     customer_names = []
     
@@ -231,7 +187,7 @@ elif page == "📄 Document Analyzer":
     st.divider()
     
     # Upload Documents
-    st.markdown("### 📄 Step 2: Upload Documents (up to 2)")
+    st.markdown("### 📂 Step 2: Upload Documents (up to 2)")
     
     uploaded_files = st.file_uploader(
         "Choose PDF files",
@@ -256,7 +212,7 @@ elif page == "📄 Document Analyzer":
     st.divider()
     
     # Analyze Button
-    if st.button("🚀 Analyze Documents", type="primary", use_container_width=True):
+    if st.button("🔍 Analyze Documents", type="primary", use_container_width=True):
         if not uploaded_files:
             st.error("Please upload at least one document")
         elif not customer_names:
@@ -371,14 +327,10 @@ elif page == "📄 Document Analyzer":
             st.markdown(f"### Document {idx}: {result['document_name']}")
             
             if result.get('is_letter_file'):
-                st.info("📧 This document has 'letter' in its filename")
+                st.info("✉️ This document has 'letter' in its filename")
             
-            if "RELEASE IN FULL" in result['conclusion']:
-                st.success(f"**{result['conclusion']}**")
-            elif "PARTIAL" in result['conclusion']:
-                st.warning(f"**{result['conclusion']}**")
-            else:
-                st.error(f"**{result['conclusion']}**")
+            # Display conclusion in RED
+            st.markdown(f'<p class="conclusion-text">{result["conclusion"]}</p>', unsafe_allow_html=True)
             
             if result.get('note'):
                 st.caption(result['note'])
@@ -401,7 +353,7 @@ elif page == "📄 Document Analyzer":
         col1, col2 = st.columns([3, 1])
         with col1:
             st.download_button(
-                "📥 Download Analysis (JSON)",
+                "💾 Download Analysis (JSON)",
                 json.dumps(st.session_state.results, indent=2),
                 "foi_analysis.json",
                 "application/json",
@@ -414,8 +366,8 @@ elif page == "📄 Document Analyzer":
                 st.rerun()
 
 # PAGE 3: REFERENCES
-elif page == "📚 References":
-    st.title("📚 Reference Documents")
+elif page == "📖 References":
+    st.title("📖 Reference Documents")
     st.divider()
     
     st.markdown("""
@@ -451,9 +403,9 @@ elif page == "📚 References":
     
     ### Reference Documents
     
-    📄 FOI Act.pdf  
-    📄 FOI Guidelines  
-    📄 Taxation Administration Act  
+    📑 FOI Act.pdf  
+    📋 FOI Guidelines  
+    📜 Taxation Administration Act  
     📄 About the TAA  
     
     ---
@@ -464,6 +416,8 @@ elif page == "📚 References":
 # Footer
 st.markdown("---")
 st.caption("⚖️ FOI Case Management Tool | For Internal Use Only")
+
+
 
 
 
