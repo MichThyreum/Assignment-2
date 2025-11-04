@@ -3,6 +3,7 @@ from openai import OpenAI
 from utils.pdf_handler import extract_pdf_text
 from utils.chunker import chunk_document
 from ai_calls.analyzer import run_foi_analysis
+from utils.reference_loader import load_reference_documents, get_reference_context
 import json
 
 st.set_page_config(page_title="FOI Case Management Tool", page_icon="🏛️", layout="wide")
@@ -39,7 +40,7 @@ if 'results' not in st.session_state:
 if page == "🏠 Home":
     st.title("🏛️ FOI Case Management Tool")
     st.divider()
-    st.info("**Welcome!** This internal use tool examines documents for FOI exemptions.")
+    st.info("**Welcome!** This tool analyzes documents for FOI exemptions using reference legislation and guidelines.")
     
     st.markdown("### 🚀 How It Works")
     col1, col2 = st.columns(2)
@@ -102,6 +103,15 @@ elif page == "⚡ Analyzer":
         elif not customer_names:
             st.error("Please enter at least one customer name")
         else:
+            # Load reference documents
+            st.info("📚 Loading reference documents...")
+            ref_docs = load_reference_documents()
+            
+            if ref_docs:
+                st.success(f"✅ Loaded {len(ref_docs)} reference documents")
+            else:
+                st.warning("⚠️ No reference documents found. Analysis will proceed without references.")
+            
             results = []
             
             for file in files:
@@ -132,7 +142,18 @@ elif page == "⚡ Analyzer":
                 chunks = chunk_document(text)
                 st.success(f"✅ Created {len(chunks)} chunks")
                 
-                analysis = run_foi_analysis(client, chunks, ["Tax Secrecy (TAA s 355)", "Personal Privacy (s 47F)", "Business/Commercial (s 47)"])
+                # Define exemptions based on reference documents
+                exemptions = [
+                    "Tax Secrecy (TAA s 355)",
+                    "Personal Privacy (s 47F)",
+                    "Business/Commercial (s 47)"
+                ]
+                
+                # Get reference context
+                ref_context = get_reference_context(ref_docs) if ref_docs else ""
+                
+                # Run analysis with reference documents
+                analysis = run_foi_analysis(client, chunks, exemptions, ref_context)
                 
                 if analysis:
                     num_ex = len(analysis.get('exemptions', []))
@@ -195,28 +216,52 @@ else:
     st.title("📖 Reference Documents")
     st.divider()
     st.markdown("""
-    ### Legislation
+    ### Legislation & Guidelines
+    
     **Freedom of Information Act 1982 (Cth)**
-    - Section 37 - Law enforcement | Section 47 - Public interest | Section 47E - Agency operations | Section 47F - Personal privacy
+    - Section 47 - Public interest
+    - Section 47E - Agency operations
+    - Section 47F - Personal privacy
     
     **Taxation Administration Act 1953 (Cth)**
     - Section 355 - Taxpayer confidentiality
     
-    ### How It Works
-    1. **Document Detection** - Checks filename and content
-    2. **Letter Handling** - Letters marked for full release
-    3. **FOI Analysis** - 5 AI steps: analyze, identify, match, reason, summarize
-    4. **Results** - Conclusion and detailed findings
+    ### Reference Documents Used in Analysis
     
-    ### Reference Documents
-    📑 FOI Act.pdf | 📋 FOI Guidelines | 📜 Taxation Administration Act | 📄 About the TAA
+    This tool uses the following documents to analyze FOI exemptions:
+    
+    📋 **FOI Guidelines Part I - Preliminary (Version 2)**  
+    Overview of FOI framework and fundamental principles
+    
+    📑 **FOI Guidelines Draft Part IV - Exempt Documents (Version 2)**  
+    Detailed guidance on exemption categories and application
+    
+    📜 **Taxation Administration Act 1953**  
+    Complete legislation including Section 355 (taxpayer secrecy)
+    
+    📄 **About the Taxation Administration Act**  
+    Explanatory guide on TAA provisions and interpretations
+    
+    ### How It Works
+    
+    1. **Document Detection** - Checks filename and content for letters
+    2. **Letter Handling** - Letters to customers marked for full release
+    3. **FOI Analysis** - 5 AI analysis steps using reference documents:
+       - Analyze document structure and content
+       - Identify potential exemptions
+       - Match against FOI provisions
+       - Generate legal reasoning
+       - Create executive summary
+    4. **Results** - Provides conclusion with detailed findings
     
     ---
+    
     ⚠️ **Disclaimer:** Preliminary analysis only. Professional legal review required.
     """)
 
 st.markdown("---")
 st.caption("⚖️ FOI Case Management Tool | For Internal Use Only")
+
 
 
 

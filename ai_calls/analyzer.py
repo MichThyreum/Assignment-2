@@ -5,9 +5,9 @@ from .call_3_match import match_provisions
 from .call_4_reason import generate_reasoning
 from .call_5_summarize import create_summary
 
-def run_foi_analysis(client, chunks: list[str], exemption_types: list[str]) -> dict:
+def run_foi_analysis(client, chunks: list[str], exemption_types: list[str], reference_context: str = "") -> dict:
     """
-    Run complete FOI analysis with 5 AI calls.
+    Run complete FOI analysis with 5 AI calls using reference documents.
     Returns results dictionary with all findings.
     """
     
@@ -18,31 +18,31 @@ def run_foi_analysis(client, chunks: list[str], exemption_types: list[str]) -> d
         # AI Call 1: Analyze chunks
         progress.progress(20)
         with st.spinner("🤖 Call 1/5: Analyzing document chunks..."):
-            analysis = analyze_chunks(client, chunks)
+            analysis = analyze_chunks(client, chunks, reference_context)
         st.success("✅ Call 1 Complete")
         
         # AI Call 2: Identify exemptions
         progress.progress(40)
         with st.spinner("🤖 Call 2/5: Identifying exemptions..."):
-            raw_exemptions = identify_exemptions(client, chunks, exemption_types)
+            raw_exemptions = identify_exemptions(client, chunks, exemption_types, reference_context)
         st.success(f"✅ Call 2 Complete: {len(raw_exemptions)} found")
         
         # AI Call 3: Match provisions
         progress.progress(60)
         with st.spinner("🤖 Call 3/5: Matching FOI provisions..."):
-            matched = match_provisions(client, raw_exemptions)
+            matched = match_provisions(client, raw_exemptions, reference_context)
         st.success("✅ Call 3 Complete")
         
         # AI Call 4: Generate reasoning
         progress.progress(80)
         with st.spinner("🤖 Call 4/5: Generating legal reasoning..."):
-            final_exemptions = generate_reasoning(client, matched)
+            final_exemptions = generate_reasoning(client, matched, reference_context)
         st.success("✅ Call 4 Complete")
         
         # AI Call 5: Create summary
         progress.progress(90)
         with st.spinner("🤖 Call 5/5: Creating executive summary..."):
-            summary = create_summary(client, final_exemptions)
+            summary = create_summary(client, final_exemptions, reference_context)
         st.success("✅ Call 5 Complete")
         
         progress.progress(100)
@@ -56,4 +56,5 @@ def run_foi_analysis(client, chunks: list[str], exemption_types: list[str]) -> d
     except Exception as e:
         st.error(f"Error: {str(e)}")
         return None
+        
 
