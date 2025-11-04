@@ -78,3 +78,4 @@ Step 29: Click the “Analyze Documents” button.
 
 Step 30: The Analysis Results should state “Document 1: Principal Place of Residence Exemption Guide.pdf REVIEW REQUIRED - 5 exemptions”. This is because this an internal office document that cannot be released in full to the customer.   
 A full an exemption analysis is performed on the document based on the FOI exemptions, FOI guidelines and Taxation Administration Act documents.  The Executive Summary: Exemptions Analysis and has a breakdown of the exemptions” and the Exemptions section lists the exemptions. 
+
