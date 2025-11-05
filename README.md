@@ -2,9 +2,9 @@
 
 The Legal Task this tool seeks to undertake: Under the Victorian Freedom of Information Act 1982 (Vic), anyone can ask to see documents that are held by agencies in the Victorian public sector. This tool helps staff upload documents that customers have asked for, usually about investigations into their tax matters. Once the documents are uploaded, the tool reviews them to check which parts must be shared and which parts do not have to be shared because of the Act. The tool clearly points out which sections are exempt from release and explains which rules or exemptions apply. After this review, staff can use the tool’s analysis to help make the final decision about what information can be given to the customer.
 
-URL to your deployed application :
+URL to your deployed application : https://assignment-2-rmr2gzjj27utml6j2umyx5.streamlit.app/
 
-URL to GitHub Repository:
+URL to GitHub Repository:https://reimagined-halibut-g4w9vw4pp6wqhvwj5.github.dev/
 
 Source of Code: Claude ai
 
