@@ -12,7 +12,7 @@ Test case to demonstrate the application’s functionality:
 
 Step 1: The landing page of the application details how the FOI Case Management Tool works.
 
-Step 2: The navigation tab on the left of the application screen as three radio buttons. The Home button contains details on how to use FOI Case Management Tool.
+Step 2: The navigation tab on the left of the application screen has three radio buttons. The Home button contains details on how to use FOI Case Management Tool.
 
 Step 3: Click on the “Analyser” button on the navigation tab on the left of the application screen.
 
@@ -31,7 +31,7 @@ Customer 1 - First Name: Ann
 Customer 1 – Last Name: Scape
 
 Step 9: Under “Step 2: Upload Documents (up to 2)” click on the “Browse Files” button. 
-Please note the Test case documents are available in the GitHub Code.  To download these documents please click on the Test Case Documents folder on the gihub code space, this will list all 5 documents that are part of the test case. Right click each file and press download on each document. Save these documents in a place they can be accessed easily. 
+Please note the Test case documents are available in the GitHub Code.  To download these documents please click on the Test Case Documents folder on the github code space, this will list all 5 documents that are part of the test case. Right click each file and press download on each document. Save these documents in a place they can be accessed easily. 
 
 Step 10: Test Case 1: Upload Investigation Letters (documents titled Investigation Outcome Letter and Investigation Commencement Letter).
 
